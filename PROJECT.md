@@ -19,10 +19,10 @@ Une application mobile dédiée aux passionnés de mobylette, permettant de plan
 <table>
   <tr>
     <td>
-      <img src="./images/mobytrax/mobytrax-nobg.png" alt="MobyTrax logo" />
+      <img width="256" src="./images/mobytrax/mobytrax-nobg.png" alt="MobyTrax logo" />
     </td>
     <td>
-      <img src="./images/mobytrax/mobytrax.png" alt="MobyTrax logo" />
+      <img width="256" src="./images/mobytrax/mobytrax.png" alt="MobyTrax logo" />
     </td>
   </tr>
 </table>
@@ -35,10 +35,10 @@ Une application mobile dédiée aux passionnés de mobylette, permettant de plan
 <table>
   <tr>
     <td>
-      <img src="./images/mobygo/mobygo-nobg.png" alt="MobyGo logo" />
+      <img width="256" src="./images/mobygo/mobygo-nobg.png" alt="MobyGo logo" />
     </td>
     <td>
-      <img src="./images/mobygo/mobygo.png" alt="MobyGo logo" />
+      <img width="256" src="./images/mobygo/mobygo.png" alt="MobyGo logo" />
     </td>
   </tr>
 </table>
