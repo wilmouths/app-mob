@@ -11,6 +11,17 @@ Une application mobile dédiée aux passionnés de mobylette, permettant de plan
 - __Phrase d’accroche :__ *“Partez à l’aventure, guidé par votre mobylette.”*
 - __Description :__ L’application idéale pour planifier, partager et suivre vos balades en mobylette, avec cartes, itinéraires et souvenirs.
 
+<table>
+  <tr>
+    <td>
+      <img width="256" src="./images/mobytrip/mobytrip-nobg.png" alt="MobyTrip logo" />
+    </td>
+    <td>
+      <img width="256" src="./images/mobytrip/mobytrip.png" alt="MobyTrip logo" />
+    </td>
+  </tr>
+</table>
+
 **MobyTrax**
 
 - __Phrase d’accroche :__ *“Suivez la trace de vos plus belles balades.”*
