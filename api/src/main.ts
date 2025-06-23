@@ -1,28 +1,30 @@
 import { NestFactory } from '@nestjs/core';
-import { ConfigService } from '@nestjs/config';
-import helmet from 'helmet';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
-import { Logger } from 'nestjs-pino';
+import { PinoLoggerService } from './logger/logger.service';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    bufferLogs: true,
+  const fastifyAdapter: FastifyAdapter = new FastifyAdapter({
+    logger: true,
   });
 
-  const config = app.get<ConfigService>(ConfigService);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    fastifyAdapter,
+    {
+      bufferLogs: true,
+    },
+  );
 
-  const port = config.get<number>('app.port');
-  if (!port) {
-    throw new Error('Missing required config: app.port');
-  }
+  app.useLogger(new PinoLoggerService(fastifyAdapter.getInstance().log));
 
-  app.useLogger(app.get(Logger));
-
-  app.use(helmet.hidePoweredBy());
-  app.use(helmet.hsts());
-  app.use(helmet.xssFilter());
-  app.use(helmet.noSniff());
-
-  await app.listen(port);
+  await app.listen(process.env.PORT ?? 3000);
 }
-bootstrap();
+
+bootstrap()
+  .then(() => Logger.log('Server run'))
+  .catch((err) => Logger.error(err));

@@ -1,27 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-
-export type User = any;
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
-  constructor(private configService: ConfigService) {}
+  private readonly logger = new Logger(UsersService.name);
 
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(private readonly prisma: PrismaService) {}
 
-  async findOne(username: string): Promise<User | undefined> {
-    console.log(this.configService.get<number>('app.port'));
-    return this.users.find(user => user.username === username);
+  async findAll(): Promise<User[]> {
+    try {
+      return await this.prisma.user.findMany();
+    } catch (error) {
+      this.logger.error('Failed to retrieve users', error.stack);
+      throw new InternalServerErrorException('Unable to fetch users.');
+    }
   }
 }

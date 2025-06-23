@@ -4,9 +4,19 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// generator client {
+//   provider = "prisma-client-js"
+//   output   = "../generated/prisma"
+// }
+
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl", "darwin", "debian-openssl-1.1.x"]
 }
 
 datasource db {
@@ -15,7 +25,7 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
+  id    String  @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email String  @unique
   name  String?
 }
