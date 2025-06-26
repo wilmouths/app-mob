@@ -5,7 +5,7 @@ import {
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
 import { PinoLoggerService } from './logger/logger.service';
-import { Logger } from '@nestjs/common';
+import { ConsoleLogger, Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const fastifyAdapter: FastifyAdapter = new FastifyAdapter({
@@ -16,13 +16,15 @@ async function bootstrap() {
     AppModule,
     fastifyAdapter,
     {
-      bufferLogs: true,
+      logger: new ConsoleLogger({
+        json: true,
+      }),
     },
   );
 
   app.useLogger(new PinoLoggerService(fastifyAdapter.getInstance().log));
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 }
 
 bootstrap()

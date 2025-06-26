@@ -4,16 +4,6 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-// generator client {
-//   provider = "prisma-client-js"
-//   output   = "../generated/prisma"
-// }
-
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-// }
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl", "darwin", "debian-openssl-1.1.x"]
@@ -24,8 +14,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    String  @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email String  @unique
-  name  String?
+enum Role {
+  USER
+  MODERATOR
+  ADMIN
 }
+
+model User {
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email       String     @unique
+  password    String
+  nickName    String     @unique
+  firstName   String?
+  lastName    String?
+  role        Role       @default(USER)
+  totp        UserTotp?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model UserTotp {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId       String   @unique @db.Uuid
+  secret       String   @unique
+  backupCodes  String
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
